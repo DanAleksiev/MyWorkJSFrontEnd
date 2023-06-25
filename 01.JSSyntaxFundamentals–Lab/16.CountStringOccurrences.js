@@ -6,7 +6,6 @@ function count(text, word){
             count++;
         }      
     }
-
     console.log(count);
 }
 

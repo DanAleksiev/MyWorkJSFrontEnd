@@ -1,4 +1,4 @@
-function reverseArr(...arr){
+function reverseArr(arr){
     // doest work if you dont define the tipe of the var      
     let odd = 0;
     let even = 0;

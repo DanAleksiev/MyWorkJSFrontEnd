@@ -1,4 +1,4 @@
-function sum(...input){
+function sum(input){
     let firsNum = input[0];
     let lastNumber = input[input.length-1];
     console.log(firsNum + lastNumber);
