@@ -21,4 +21,3 @@ function solve(a,b){
 
 solve('a','d')
 solve('#',':')
-// solve(600,342,123)
