@@ -7,6 +7,7 @@ if(num===100){
 }
 else{
     console.log(output);
+    console.log(`Still loading...`);
 }
 }
 
