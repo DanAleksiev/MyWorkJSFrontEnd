@@ -1,12 +1,13 @@
 function solve(num){
-    let sum = 0;
-for (let i = 1; i < num; i++) {
-    if (num% i ===0){
-        sum +=i
-    }    
+const tempNumb = num/10;
+let output = `${num}% [${`%`.repeat(tempNumb)}${`.`.repeat(10-tempNumb)}]`
+
+if(num===100){
+    console.log(`100% Complete!`);
 }
-const output = num === sum ? `We have a perfect number!` : `It's not so perfect.`;
-console.log(output);
+else{
+    console.log(output);
+}
 }
 
 solve(30)
