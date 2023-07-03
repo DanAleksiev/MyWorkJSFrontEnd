@@ -5,14 +5,8 @@ for (let i = 1; i < num; i++) {
         sum +=i
     }    
 }
-
-if(num === sum){
-    console.log(`We have a perfect number!`);
-}
-else{
-    console.log(`It's not so perfect.`);
-}
-
+const output = num === sum ? `We have a perfect number!` : `It's not so perfect.`;
+console.log(output);
 }
 
 solve(6)
