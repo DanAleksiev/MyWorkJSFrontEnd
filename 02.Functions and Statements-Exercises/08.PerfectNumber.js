@@ -1,15 +1,20 @@
 function solve(num){
-    let arr = Array.from({
-        length: num
-    },() => new Array(num).fill(num));
+    let sum = 0;
+for (let i = 1; i < num; i++) {
+    if (num% i ===0){
+        sum +=i
+    }    
+}
 
-    console.log(arr
-        .map(e =>e.join(" ")) //gets rid of the commas in between the individual chars.
-        .join("\n"));         //print on new line
-
+if(num === sum){
+    console.log(`We have a perfect number!`);
+}
+else{
+    console.log(`It's not so perfect.`);
+}
 
 }
 
-solve(3)
-solve(7)
-solve(2)
+solve(6)
+solve(28)
+solve(1236498)
