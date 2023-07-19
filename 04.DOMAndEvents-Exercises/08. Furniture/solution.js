@@ -1,4 +1,5 @@
 function solve() {
+  //not mine code source (RiseYourFists)
   const buttons = document.querySelectorAll('button');
   const buttonGenerator = buttons[0];
   const buyButton = buttons[1];
