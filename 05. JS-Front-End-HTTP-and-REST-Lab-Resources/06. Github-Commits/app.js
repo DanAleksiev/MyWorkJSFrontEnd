@@ -6,8 +6,16 @@ function loadCommits() {
         return
     }
 
+    const list = document.querySelector("ul")
 
     fetch(`https://api.github.com/repos/${username}/${repo}/commits`)
-    .then((res) => res.json)
-    .then(console.log());
+    .then((res) => res.json())
+    .then((commits) =>{
+       commits.forEach((commit) => {
+        const item = document.createElement("li")
+        item.textContent = commit.commit.message
+
+        list.appendChild(item)
+       });
+    });
 }
