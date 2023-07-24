@@ -1,30 +1,45 @@
 function solve() {
-    function getInfo() {
-    const bus = document.getElementById("stopId").value;
-    const timeTable = document.getElementById("buses");
-    timeTable.innerHTML = "";
-    const stopName = document.getElementById("stopName")
+    const infoTable = document.getElementById("info")
 
-    fetch(`http://localhost:3030/jsonstore/bus/schedule/${bus}`)
-    .then((res) => res.json())
-    .then((body) => {
-        stopName.textContent = body.name
-        const buses = Object.entries(body.buses).map(([busNumber, time])=>{
-            const li = document.createElement("li");
-            li.textContent = `Bus ${busNumber} arrives in ${time} minutes`
-            
-            timeTable.appendChild(li)
-        });       
-    })
-
-}
+    let currentStop = ""
+    let nextStop = ""
+    
+    
     function depart() {
-        // TODO: 
+        if(nextStop){
+            currentStop = nextStop
+        }
+        else{
+            currentStop = "depot"
+        }
+        fetch(`http://localhost:3030/jsonstore/bus/schedule/${currentStop}`)
+        .then((res) => res.json())
+        .then((body) => {
+
+        infoTable.textContent = `Next stop ${body.name}`;
+        nextStop = body.next;
+        document.getElementById("depart").disabled = true
+        document.getElementById("arrive").disabled = false
+    })
+    .catch (()  =>{
+        document.getElementById("depart").disabled = false
+        document.getElementById("arrive").disabled = false
+         infoTable.textContent = "Error";
+    })
+             
     }
 
     async function arrive() {
-        // TODO:
+        fetch(`http://localhost:3030/jsonstore/bus/schedule/${currentStop}`)
+        .then((res) => res.json())
+        .then((body) => {
+        infoTable.textContent = `Arriving at ${body.name}`;})
+
+        document.getElementById("depart").disabled = false
+        document.getElementById("arrive").disabled = true
     }
+
+    
 
     return {
         depart,
