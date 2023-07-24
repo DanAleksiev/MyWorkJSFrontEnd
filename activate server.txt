@@ -1,0 +1,4 @@
+cd ../nameOfFolder
+1. server consol  - node server.js
+2. file console - npm install
+3. file console - npm start
