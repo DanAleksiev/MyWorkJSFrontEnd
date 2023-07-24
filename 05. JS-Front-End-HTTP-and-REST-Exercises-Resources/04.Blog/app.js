@@ -18,19 +18,18 @@ function attachEvents() {
 
           const post = document.getElementById("posts");
           post.appendChild(options);
-          
+
           const currentObj = {
             title: title,
             id: id,
             body: body,
-          }
+          };
 
-          obj.push(currentObj)
+          obj.push(currentObj);
         }
       });
   });
 
-  // Comments
   const buttonViewPost = document.getElementById("btnViewPost");
   buttonViewPost.addEventListener("click", (e) => {
     const ul = document.getElementById("post-comments");
@@ -38,29 +37,25 @@ function attachEvents() {
     const targetTitle = document.getElementById("posts");
 
     ul.innerHTML = "";
-    // h1.innerHTML = "";
 
-    let targetedTitle = {}
+    let targetedTitle = {};
     for (const currentObj of obj) {
-        if(currentObj.id === targetTitle.value){
-            targetedTitle = currentObj;         
-            break;
-        }
+      if (currentObj.id === targetTitle.value) {
+        targetedTitle = currentObj;
+        break;
+      }
     }
-    // console.log(targetedTitle)
 
     fetch(`http://localhost:3030/jsonstore/blog/comments`)
       .then((res) => res.json())
       .then((body) => {
-        
         for (const el of Object.entries(body)) {
           const [name, value] = el;
           const id = value.id;
           const postID = value.postId;
           const comments = value.text;
-        //   console.log(postID);
 
-          if ((targetedTitle.id === postID)) {
+          if (targetedTitle.id === postID) {
             h1.textContent = targetedTitle.title;
 
             const p = document.getElementById("post-body");
@@ -70,7 +65,6 @@ function attachEvents() {
             li.textContent = comments;
 
             ul.appendChild(li);
-            // console.log(id);
           }
         }
       });
