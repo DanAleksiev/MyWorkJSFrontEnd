@@ -22,24 +22,26 @@ createElement(
 
 
 
-function createElement(type, textContent, classes, id, parent) {
+function createElement(type, textContent, classes, id, parent, useInnerHTML) {
     const element = document.createElement(type);
-    
-    if(textContent){
-        element.textContent =   textContent
+
+    if (useInnerHTML && textContent) {
+      element.innerHTML = textContent;
+    } else if (textContent) {
+      element.textContent = textContent;
     }
 
-    if(classes && classes.length >0){
-        element.classList.add(...classes);
+    if (classes && classes.length > 0) {
+      element.classList.add(...classes);
     }
 
-    if(id){
-        element.setAttribute("id", id)
+    if (id) {
+      element.setAttribute("id", id);
     }
 
-    if(parent){
-        parent.appendChild(element)
+    if (parent) {
+      parent.appendChild(element);
     }
 
-    return element
-}
+    return element;
+  }
