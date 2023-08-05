@@ -13,7 +13,7 @@ function solve() {
   publishButton.addEventListener("click", publishPost);
 
   function publishPost() {
-    if(!data.title.value|| !data.category.value|| !data.content.value){
+    if (!data.title.value || !data.category.value || !data.content.value) {
       return;
     }
 
@@ -23,8 +23,20 @@ function solve() {
     createElement("h4", data.title.value, null, null, article);
     createElement("p", `Category: ${data.category.value}`, null, null, article);
     createElement("p", `Content: ${data.content.value}`, null, null, article);
-    const editButton = createElement("button", `Edit`, ["action-btn", ["edit"]], null, article);
-    const postButton = createElement("button", `Post`, ["action-btn", ["post"]], null, article);
+    const editButton = createElement(
+      "button",
+      `Edit`,
+      ["action-btn", ["edit"]],
+      null,
+      article
+    );
+    const postButton = createElement(
+      "button",
+      `Post`,
+      ["action-btn", ["post"]],
+      null,
+      article
+    );
 
     const currentD = {
       title: data.title.value,
@@ -34,27 +46,25 @@ function solve() {
 
     documents.push(currentD);
 
-    editButton.addEventListener("click", (e) =>{
-      data.title.value = currentD.title
-      data.category.value = currentD.category
-      data.content.value = currentD.content
+    editButton.addEventListener("click", (e) => {
+      data.title.value = currentD.title;
+      data.category.value = currentD.category;
+      data.content.value = currentD.content;
 
-      li.remove()
+      li.remove();
     });
 
-    postButton.addEventListener("click", (e) =>{
+    postButton.addEventListener("click", (e) => {
       const currUl = document.getElementById("published-list");
-      li.remove()
-      editButton.remove()
-      postButton.remove()
-      currUl.appendChild(li)
-
+      li.remove();
+      editButton.remove();
+      postButton.remove();
+      currUl.appendChild(li);
     });
 
     Object.values(data).forEach((e) => (e.value = ""));
+
   }
-
-
   function createElement(type, textContent, classes, id, parent) {
     const element = document.createElement(type);
 
