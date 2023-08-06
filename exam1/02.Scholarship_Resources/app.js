@@ -9,13 +9,14 @@ function solve() {
 
   const selectors = {
     nextButton: document.querySelector("#next-btn"),
-    previewList: document.querySelector("#preview-list")
+    previewList: document.querySelector("#preview-list"),
+    applyPreview: document.querySelector("#candidates-list")
   };
 
   selectors.nextButton.addEventListener("click", nextAction);
 
   function nextAction() {
-    if(Object.values(objectSelectors).some((e) => e.value === "")){
+    if (Object.values(objectSelectors).some((e) => e.value === "")) {
       return;
     }
 
@@ -23,10 +24,48 @@ function solve() {
     const uni = objectSelectors.uni.value;
     const score = objectSelectors.score.value;
 
-    const ul = selectors.previewList
+    Object.values(objectSelectors).forEach((e) => (e.value = ""));
+    selectors.nextButton.disabled = true;
 
-    createElement()
+    const ul = selectors.previewList;
+    const li = createElement("li", null, ["application"], null, ul);
+    const article = createElement("article", null, null, null, li);
+    createElement("h4", name, null, null, article);
+    createElement("p", `University: ${uni}`, null, null, article);
+    createElement("p", `Score: ${score}`, null, null, article);
+    const editBtn = createElement(
+      "button",
+      "edit",
+      ["action-btn"],
+      ["edit"],
+      li
+    );
+    const applyBtn = createElement(
+      "button",
+      "apply",
+      ["action-btn"],
+      ["apply"],
+      li
+    );
 
+    editBtn.addEventListener("click", (e) => {
+      objectSelectors.name.value = name;
+      objectSelectors.uni.value = uni;
+      objectSelectors.score.value = score;
+
+      ul.innerHTML = "";
+      selectors.nextButton.disabled = false;
+    });
+    applyBtn.addEventListener("click", (e) => {
+      ul.innerHTML = "";
+      selectors.nextButton.disabled = false;
+
+      applyBtn.remove();
+      editBtn.remove();
+      
+      const candidatesList = selectors.applyPreview
+      candidatesList.appendChild(li)
+    });
   }
 
   function createElement(type, textContent, classes, id, parent, useInnerHTML) {
