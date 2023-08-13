@@ -30,3 +30,21 @@
 
         console.log(red);
     }
+
+// create object with arreys 
+    const assignees = tickets.reduce((acc, curr) => {
+        const [name, taskId, title, status, estimatedPoints] = curr.split(":");
+    
+        if (!acc.hasOwnProperty(name)) {
+          acc[name] = [];
+        }
+    
+        acc[name].push({
+          taskId,
+          title,
+          status,
+          estimatedPoints: Number(estimatedPoints),
+        });
+    
+        return acc;
+      }, {});

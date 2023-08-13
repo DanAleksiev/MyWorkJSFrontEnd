@@ -1,30 +1,28 @@
-function solve(params) {
-  const n = Number(params.shift());
-  const tickets = params.slice(0, n);
-  const commands = params.slice(n);
+function solve(input) {
+  const n = input.shift();
+  const tickets = input.slice(0, n);
+  const commands = input.slice(n);
+  const assignees = {};
 
-  const assignees = tickets.reduce((acc, curr) => {
-    const [name, taskId, title, status, estimatedPoints] = curr.split(":");
-
-    if (!acc.hasOwnProperty(name)) {
-      acc[name] = [];
+  tickets.forEach((element) => {
+    const [name, taskId, title, status, points] = element.split(":");
+    if (!assignees[name]) {
+      assignees[name] = [];
     }
-
-    acc[name].push({
+    assignees[name].push({
       taskId,
       title,
       status,
-      estimatedPoints: Number(estimatedPoints),
+      points: Number(points),
     });
-
-    return acc;
-  }, {});
+  });
 
   const actions = {
     "Add New": addNew,
     "Change Status": changeStatus,
     "Remove Task": removeTask,
   };
+
   commands.forEach((c) => {
     const [command, ...rest] = c.split(":");
     actions[command](...rest);
@@ -54,70 +52,57 @@ function solve(params) {
     const totalPoints = Object.values(assignees).reduce((acc, curr) => {
       const total = curr
         .filter((a) => a.status === status)
-        .reduce((tTotal, task) => tTotal + task.estimatedPoints, 0);
+        .reduce((tTotal, task) => tTotal + task.points, 0);
 
       return acc + total;
     }, 0);
     if (status === "Done") {
-        console.log(`${status} Points: ${totalPoints}pts`);
-        
-    }
-    else{
-        console.log(`${status}: ${totalPoints}pts`);
-
+      console.log(`${status} Points: ${totalPoints}pts`);
+    } else {
+      console.log(`${status}: ${totalPoints}pts`);
     }
     return totalPoints;
   }
 
-  function addNew(assignee, taskId, title, status, estimatedPoints) {
-    if (!assignees.hasOwnProperty(assignee)) {
-      doesItExistMessage(assignee);
-      return true;
-    }
+  function addNew(name, taskId, title, status, points) {
+    if (!verify(name)) return;
 
-    assignees[assignee].push({
+    assignees[name].push({
       taskId,
       title,
       status,
-      estimatedPoints: Number(estimatedPoints),
+      points: Number(points),
     });
   }
 
-  function changeStatus(assignee, taskId, newStatus) {
-    if (!assignees.hasOwnProperty(assignee)) {
-      doesItExistMessage(assignee);
-      return;
-    }
+  function changeStatus(name, taskId, status) {
+    if (!verify(name)) return;
 
-    const task = assignees[assignee].find((e) => e.taskId === taskId);
+    const task = assignees[name].find((e) => e.taskId === taskId);
 
     if (!task) {
-      console.log(`Task with ID ${taskId} does not exist for ${assignee}!`);
+      console.log(`Task with ID ${taskId} does not exist for ${name}!`);
       return;
     }
-
-    assignees[assignee].pop(task);
-    task.status = newStatus;
-    assignees[assignee].push(task);
-    // console.log(JSON.stringify(assignees[assignee]));
+    task.status = status;
   }
+  function removeTask(name, index) {
+    if (!verify(name)) return;
 
-  function removeTask(assignee, index) {
-    if (!assignees.hasOwnProperty(assignee)) {
-      doesItExistMessage(assignee);
-      return;
-    }
-
-    if (index > assignees[assignee].length) {
+    if (index > assignees[name].length) {
       console.log("Index is out of range!");
       return;
     }
 
-    assignees[assignee].pop(index);
+    assignees[name].pop(index);
   }
+  function verify(name) {
+    if (!assignees[name]) {
+      console.log(`Assignee ${name} does not exist on the board!`);
+      return false;
+    }
 
-  function doesItExistMessage(assignee) {
-    console.log(`Assignee ${assignee} does not exist on the board!`);
+    return true;
   }
 }
 
@@ -136,13 +121,13 @@ function solve(params) {
 
 solve([
   `4`,
-`Kiril:BOP-1213:Fix Typo:Done:1`,
-`Peter:BOP-1214:New Products Page:In Progress:2`,
-`Mariya:BOP-1215:Setup Routing:ToDo:8`,
-`Georgi:BOP-1216:Add Business Card:Code Review:3`,
-`Add New:Sam:BOP-1237:Testing Home Page:Done:3`,
-`Change Status:Georgi:BOP-1216:Done`,
-`Change Status:Will:BOP-1212:In Progress`,
-`Remove Task:Georgi:3`,
-`Change Status:Mariya:BOP-1215:Done`
+  `Kiril:BOP-1213:Fix Typo:Done:1`,
+  `Peter:BOP-1214:New Products Page:In Progress:2`,
+  `Mariya:BOP-1215:Setup Routing:ToDo:8`,
+  `Georgi:BOP-1216:Add Business Card:Code Review:3`,
+  `Add New:Sam:BOP-1237:Testing Home Page:Done:3`,
+  `Change Status:Georgi:BOP-1216:Done`,
+  `Change Status:Will:BOP-1212:In Progress`,
+  `Remove Task:Georgi:3`,
+  `Change Status:Mariya:BOP-1215:Done`,
 ]);
